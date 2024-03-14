@@ -52,11 +52,13 @@ header img{
 .job-type{
   display: flex;
   color: grey;
-  font-weight: 600;
+  font-weight: 500;
+  margin-top: -25px;
 }
 .punto{
-  margin-left: 5px;
-  margin-right: 5px;
+  font-weight: 700;
+  margin-left: 6px;
+  margin-right: 6px;
 }
 .company{
   display: flex;
@@ -66,6 +68,7 @@ header img{
 .new,
 .featured{
   margin-left: 10px;
+  font-size: 12PX;
 }
 .new{
   color: #fff;
@@ -75,6 +78,7 @@ header img{
 }
 h3{
   cursor: pointer;
+  margin-top: 5px;
   color: var(--VeryDarkGrayishCyan);
 }
 h3:hover{
@@ -96,10 +100,11 @@ h3:hover{
 .role,
 .tools{
   cursor: pointer;
-  margin: 5px;
+  margin: 7px;
   border: none;
   color: var(--DesaturatedDarkCyan);
   background-color: var(--LightGrayishCyan);
+  border-radius: 5px;
   font-size: 14px;
   font-weight: 600;
   padding: 5px 10px;
