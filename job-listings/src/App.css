@@ -117,3 +117,38 @@ h3:hover{
   background-color: var(--DesaturatedDarkCyan);
   border-radius: 5px;
 }
+.filter-tags{
+  display: flex;
+  justify-content: space-between;
+  background-color: #fff;
+  border-radius: 5px;
+}
+.filter-tag{
+  display: flex;
+
+}
+.filter-tag span{
+  color: var(--DesaturatedDarkCyan);
+  background-color: var(--LightGrayishCyan);
+  font-weight: 600;
+}
+.x-button{
+  cursor: pointer;
+  background-color: var(--DesaturatedDarkCyan);
+  color: #fff;
+  font-weight: 600;
+  border: none;
+}
+.x-button:hover{
+  background-color: var(--VeryDarkGrayishCyan);
+}
+.clear button{
+  cursor: pointer;
+  color: var(--DesaturatedDarkCyan);
+  background-color: #fff;
+  border: none;
+  font-weight: 600;
+}
+.clear button:hover{
+  border-bottom: 1px solid var(--DesaturatedDarkCyan);
+}

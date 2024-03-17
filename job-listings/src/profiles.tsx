@@ -6,26 +6,26 @@ import { User } from './types';
 export function Profiles (){
     const [usuarios, setUsuarios] = useState<User[]>([]);
     const [filteredUsuarios, setFilteredUsuarios] = useState<User[]>([]);
-    const [filters, setFilters] = useState<{[key:string]:string | null}>({
+    const [filters, setFilters] = useState<{[key:string]: string | null}>({
         role:null,
         level:null,
-        language:null,
-        tool:null,
+        languages:null ,
+        tools:null,
     })
-    const [selectedFilters, setSelectedFilters] = useState<{[key:string]:string[]}>({
+    const [selectedFilters, setSelectedFilters] = useState<{[key:string]: string[]}>({
         role:[],
         level:[],
-        language:[],
-        tool:[]
+        languages:[],
+        tools:[]
     });
 
 
-    const handleFilter = (filterType:string,value:string|null) => {
-        setFilters({ ...filters, [filterType]:value });
+    const handleFilter = (filterType:string, value:string | null) => {
+        setFilters(prevFilters => ({ ...prevFilters, [filterType]: value }));
         if (value) {
             setSelectedFilters(prevSelected => ({
                 ...prevSelected,
-                [filterType]:[...prevSelected[filterType],value]
+                [filterType]: [...prevSelected[filterType], value]
             }))
     }
 }
@@ -34,7 +34,23 @@ export function Profiles (){
             ...prevSelected,
             [filterType]: prevSelected[filterType].filter(filter =>filter !== filterValue)
         }))
-        setFilters({...filters,[filterType]:null})
+        setFilters(prevFilters => ({...prevFilters, [filterType]: null}));
+    }
+    const clearAllFilters = () =>{
+        setSelectedFilters({
+            role:[],
+            level:[],
+            languages:[],
+            tools:[]
+        });
+        setFilters({
+            role:null,
+            level:null,
+            languages:null,
+            tools:null,
+        })
+
+
     }
 
    
@@ -45,27 +61,35 @@ export function Profiles (){
     }, []);
 
     useEffect(() => {
-        let filteredUsers = usuarios;
+        const filteredUsers = usuarios.filter(user => {
         for(const filterType in filters) {
-            if (filters[filterType]) {
-                filteredUsers = filteredUsers.filter(user => user[filterType] === filters[filterType])
+            if (filters[filterType] && user[filterType] !== filters[filterType]) {
+                return false;
             }
         }
+        return true;
+    })
         setFilteredUsuarios(filteredUsers);
     },[filters,usuarios]);
  
     return(
         <div className="profiles">
-            {Object.keys(selectedFilters).map(filterType => (
             <div className='filter-tags'>
-                {selectedFilters[filterType].map(filterValue =>(
-                    <div key={filterValue} className='filter-tag'>
-                        <span>{filterValue}</span>
-                        <button onClick={() => removeFilters(filterType,filterValue)}>X</button>
+            {Object.entries(selectedFilters).map(([filterType, filterValues]) => 
+                filterValues.map((filterValue, index) => (
+                    <div key={`${filterType}-${filterValue}-${index}`} className='filter-tag'>
+                        <span>{filterValue}<button className='x-button' onClick={() => removeFilters(filterType, filterValue)}>X</button></span>
+
                         </div>
-                ))}
+                ))
+            
+            )}
+            {Object.values(selectedFilters).some(filterValues => filterValues.length > 0) && (
+                <div className='clear'>
+                    <button onClick={clearAllFilters}>Clear</button>
+                </div>
+            )}
             </div>
-            ))}
             {filteredUsuarios.map ((usuario, index) =>(
             <div key={usuario.id} className='profile'>
                 <div className='profile-data'>
@@ -91,11 +115,11 @@ export function Profiles (){
                 <div className='filter'>
                     <button className='role' onClick={() => handleFilter('role',usuario.role)}>{usuario.role}</button>
                     <button className='level' onClick={() =>handleFilter('level',usuario.level)}>{usuario.level}</button>
-                    {usuario.languages.map((language, Index) =>(
-                        <button className='languages' key={Index} onClick={() => handleFilter('language',language)}>{language}</button>
+                    {usuario.languages.map((language, index) =>(
+                        <button className='languages' key={index} onClick={() => handleFilter('languages',language)}>{language}</button>
                     ))}
-                    {usuario.tools.map((tool,Index) => (
-                        <button className='tools' key={Index} onClick={() => handleFilter('tool',tool)}>{tool}</button>
+                    {usuario.tools.map((tool,index) => (
+                        <button className='tools' key={index} onClick={() => handleFilter('tools',tool)}>{tool}</button>
                     ))}
                 </div>
             </div>   

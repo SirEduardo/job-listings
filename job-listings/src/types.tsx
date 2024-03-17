@@ -1,5 +1,5 @@
 export interface User {
-    id:number;
+    id: number;
     logo: string;
     company: string ,
     new: boolean,
@@ -12,4 +12,5 @@ export interface User {
     location: string,
     languages: string [],
     tools: string[];
+    [key:string]: string | string[] | boolean | number | undefined
 }
